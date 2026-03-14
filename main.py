@@ -14,6 +14,7 @@ def load_ids():
         with open("user_ids.txt", "r", encoding="utf-8") as f:
             return set(line.strip() for line in f if line.strip())
     except FileNotFoundError:
+        print("File user_ids.txt not found")
         return set()
 
 
@@ -38,8 +39,12 @@ async def get_users(chat_ids: set[str]):
 
 
 if __name__ == "__main__":
-    file = open("chat_ids.txt", "r", encoding="utf-8")
-    chat_ids = set(line.strip() for line in file if line.strip()) 
+    try:
+        file = open("chat_ids.txt", "r", encoding="utf-8")
+        chat_ids = set(line.strip() for line in file if line.strip()) 
+    except FileNotFoundError:
+        print("File chat_ids.txt not found")
+        exit()
     print(chat_ids)
     app.run(get_users(chat_ids))
 
